@@ -27,3 +27,15 @@ This following section will assume that you have Github Desktop installed, but t
 3. In the window that pops up, go to URL and use the following link: `https://github.com/UFGDA/Super-Florida-Man`
 
 You now have the repository on your computer and you can now use Unreal to open the project.
+
+### Connecting Unreal to Git
+
+// Todo
+
+### Committing and Pushing Changes
+
+// Todo
+
+### Pulling Changes
+
+// Todo
