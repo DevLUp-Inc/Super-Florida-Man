@@ -39,8 +39,9 @@ jobs:
         run: |
           find . -maxdepth 2 -type d ;\
           mkdir project/ ;\
+          mkdir project/Intermediate/ ;\
           chown -R `whoami` project/ ;\
-          chmod -R u+rw project/ ;\
+          chmod -R 777 project/ ;\
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
