@@ -48,7 +48,7 @@ jobs:
           -project=/project/Super_Florida_Man.uproject \
           -noP4 -nodebuginfo -allmaps \
           -cook -build -stage -prereqs -pak -archive \
-          -archivedirectory=/project/Packaged 
+          -archivedirectory=/NOTproject/Packaged 
 
     # Log Disk Usage
     - run: "df -h"
