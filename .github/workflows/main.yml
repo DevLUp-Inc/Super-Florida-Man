@@ -18,6 +18,16 @@ jobs:
           path: "sfm"
     # Log Disk Usage
     - run: "df -h"
+    # Cleanup Disk Space
+    - uses: easimon/maximize-build-space@v4
+      with:
+        root-reserve-mb: 512
+        swap-size-mb: 1024
+        remove-dotnet: "true"
+        remove-android: "true"
+        remove-haskell: "True"
+    # Log Disk Usage
+    - run: "df -h"
     # Docker Login
     - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin"
     # Pull Unreal Engine Image
