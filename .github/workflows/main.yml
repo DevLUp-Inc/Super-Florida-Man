@@ -20,7 +20,7 @@ jobs:
         swap-size-mb: 1024
         remove-dotnet: "true"
         remove-android: "true"
-        remove-haskell: "True"
+        remove-haskell: "true"
     # Log Disk Usage
     - run: "df -h"
     # Checkout Super-Florida-Man
@@ -38,7 +38,7 @@ jobs:
         options: -v ${{ github.workspace }}:/project
         run: |
           find . -maxdepth 2 -type d ;\
-          chown -R $USER project/ ;\
+          chown -R user: project/ ;\
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
