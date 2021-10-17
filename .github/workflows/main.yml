@@ -17,4 +17,4 @@ jobs:
           lfs: false
           path: "sfm"
     # Docker Login
-    - run: "docker login ghcr.io -u ${{ secrets.GH_USERNAME }} -p ${{ secrets.GH_TOKEN }}"
+    - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin"
