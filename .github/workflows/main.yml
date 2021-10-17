@@ -24,5 +24,11 @@ jobs:
           repository: "EpicGames/UnrealEngine"
           ref: "4.27"
           token: ${{ secrets.GH_TOKEN }}
+    - run: "ls"
     # Build Unreal Engine
     - run: "./ue4/Setup.sh"
+    - run: "ls"
+    - run: "ls ue4"
+    - run: "./ue4/Setup.sh"
+    - run: "ls"
+    - run: "ls ue4"
