@@ -17,4 +17,6 @@ jobs:
           lfs: false
           path: "sfm"
     # Docker Login
-    - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin | docker pull ghcr.io/epicgames/unreal-engine:dev-4.27"
+    - run: "docker login ghcr.io -u ${{ secrets.GH_USERNAME }} -p ${{ secrets.GH_TOKEN }}"
+    # Pull Unreal Engine Image
+    - run: "docker pull ghcr.io/epicgames/unreal-engine:dev-4.27"
