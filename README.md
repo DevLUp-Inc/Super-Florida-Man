@@ -1,3 +1,4 @@
+[![Build](https://github.com/Exanite/Super-Florida-Man/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Exanite/Super-Florida-Man/actions/workflows/main.yml)
 ![GitHub last commit](https://img.shields.io/github/last-commit/UFGDA/Super-Florida-Man)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/UFGDA/Super-Florida-Man)
 
