@@ -37,6 +37,8 @@ jobs:
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
         options: -v ${{ github.workspace }}:/project --privileged=true --user 0:0
         run: |
+          du -a . ;\
+          chown -R hostuser:hostuser project ;\
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
