@@ -35,7 +35,7 @@ jobs:
         password: ${{ secrets.GH_TOKEN }}
         registry: ghcr.io
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
-        options: -v ${{ github.workspace }}:/project
+        options: -v ${{ github.workspace }}:/project --user 0:0
         run: |
           find . -maxdepth 2 -type d ;\
           mkdir project/ ;\
