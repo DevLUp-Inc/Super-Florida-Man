@@ -37,7 +37,7 @@ jobs:
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
         options: -v ${{ github.workspace }}:/project --privileged=true --user 0:0
         run: |
-          du -a . ;\
+          find . -maxdepth 2 -type d ;\
           chown -R hostuser:hostuser project ;\
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
@@ -53,7 +53,7 @@ jobs:
     # Log Disk Usage
     - run: "df -h"
     # Log Directories
-    - run: "du -a ."
+    - run: "find . -maxdepth 2 -type d"
     # Upload
     - uses: actions/upload-artifact@v2.1.4
       with:
