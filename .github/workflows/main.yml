@@ -27,34 +27,20 @@ jobs:
     - uses: actions/checkout@v2.3.5
       with:
           lfs: false
-    # Docker Run
-    - uses: addnab/docker-run-action@v2
-      with:
-        username: ${{ secrets.GH_USERNAME }}
-        password: ${{ secrets.GH_TOKEN }}
-        registry: ghcr.io
-        image: epicgames/unreal-engine:dev-4.27
-        options: -v ${{ github.workspace }}:/project
-        run: |
-          /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
-          BuildCookRun \
-          -utf8output \
-          -platform=Linux \
-          -clientconfig=Shipping \
-          -serverconfig=Shipping \
-          -project=/project/Super_Florida_Man.uproject \
-          -noP4 -nodebuginfo -allmaps \
-          -cook -build -stage -prereqs -pak -archive \
-          -archivedirectory=/project/Packaged 
     # Docker Login
-    # - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin"
+    - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin"
     # Pull Unreal Engine Image
-    # - run: "docker pull ghcr.io/epicgames/unreal-engine:dev-4.27"
+    - run: "docker pull ghcr.io/epicgames/unreal-engine:dev-4.27"
     # Log Disk Usage
-    # - run: "df -h"
+    - run: "df -h"
     # Build Project
-    # - run: "docker run --rm -ti -v $(pwd):/project ghcr.io/epicgames/unreal-engine:dev-4.27"
+    - run: "docker run --rm -ti -v ${{ github.workspace }}:/project ghcr.io/epicgames/unreal-engine:dev-4.27"
     # Log Disk Usage
     - run: "df -h"
     # Log Directories
     - run: "du -a ."
+    # Upload
+    - uses: actions/upload-artifact@v2.1.4
+      with:
+        name: Build
+        path: project
