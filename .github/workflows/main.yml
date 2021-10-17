@@ -38,7 +38,7 @@ jobs:
         options: -v ${{ github.workspace }}:/project
         run: |
           find . -maxdepth 2 -type d ;\
-          chown -R user: project/ ;\
+          chown -R `whoami` project/ ;\
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
