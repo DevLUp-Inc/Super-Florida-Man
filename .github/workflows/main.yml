@@ -35,7 +35,7 @@ jobs:
         password: ${{ secrets.GH_TOKEN }}
         registry: ghcr.io
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
-        options: -v ${{ github.workspace }}:/project
+        options: -v ${{ github.workspace }}:/project --privileged=true
         run: |
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
