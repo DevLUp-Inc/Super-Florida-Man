@@ -16,7 +16,11 @@ jobs:
       with:
           lfs: false
           path: "sfm"
+    # Log Disk Usage
+    - run: "df -h"
     # Docker Login
     - run: "echo ${{ secrets.GH_TOKEN }} | docker login ghcr.io -u ${{ secrets.GH_USERNAME }} --password-stdin"
     # Pull Unreal Engine Image
     - run: "docker pull ghcr.io/epicgames/unreal-engine:dev-4.27"
+    # Build Project
+    - run: "docker run --rm -ti -v \"PROJECT_PATH:/project\" ghcr.io/epicgames/unreal-engine:dev-4.27"
