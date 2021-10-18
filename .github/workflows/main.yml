@@ -9,19 +9,10 @@ on:
 jobs:
   # Build
   build:
-    name: Build for ${{ matrix.target-platform }} on Unreal v${{ matrix.unreal-version}}
+    name: Build for Linux on Unreal Engine v4.27
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        unreal-version:
-          - 4.27
-        target-platform:
-          - Win64
-          - Linux
-          - Mac
     steps:
-      
+
     # Maximize Disk Space
     - name: Maximize Disk Space
       uses: easimon/maximize-build-space@v4
@@ -65,7 +56,7 @@ jobs:
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
-          -platform=${{ matrix.target-platform }} \
+          -platform=Linux \
           -clientconfig=Shipping \
           -serverconfig=Shipping \
           -project=/project/Super_Florida_Man.uproject \
@@ -77,5 +68,5 @@ jobs:
     - name: Upload Game
       uses: actions/upload-artifact@v2.1.4
       with:
-        name: Build-${{ matrix.target-platform }}-${{ matrix.unreal-version}}
+        name: Build-Linux
         path: Packaged
