@@ -59,7 +59,7 @@ jobs:
         username: ${{ secrets.GH_USERNAME }}
         password: ${{ secrets.GH_TOKEN }}
         registry: ghcr.io
-        image: ghcr.io/epicgames/unreal-engine:dev-4.27
+        image: ghcr.io/epicgames/unreal-engine:dev-slim-4.27
         options: -v ${{ github.workspace }}:/project -e UE-LocalDataCachePath="/project/ddc"
         run: |
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
