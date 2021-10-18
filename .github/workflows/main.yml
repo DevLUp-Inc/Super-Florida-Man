@@ -65,8 +65,9 @@ jobs:
           -archivedirectory=/project/Packaged ;\
           du -a .
     
-    # Upload
-    - uses: actions/upload-artifact@v2.1.4
+    # Upload Game
+    - name: Upload Game
+      uses: actions/upload-artifact@v2.1.4
       with:
         name: Build
         path: Packaged
