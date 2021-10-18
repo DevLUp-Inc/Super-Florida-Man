@@ -12,10 +12,6 @@ jobs:
     name: Build for Linux
     runs-on: ubuntu-latest
     steps:
-    
-    # Log Disk Usage
-    - name: Log Disk Usage
-      run: df -h
       
     # Cleanup Disk Space
     - name: Cleanup Disk Space
@@ -26,10 +22,6 @@ jobs:
         remove-dotnet: "true"
         remove-android: "true"
         remove-haskell: "true"
-        
-    # Log Disk Usage
-    - name: Log Disk Usage
-      run: df -h
       
     # Checkout Super-Florida-Man
     - name: Checkout Super-Florida-Man
@@ -42,7 +34,7 @@ jobs:
       id: cache-ddc
       uses: actions/cache@v2.1.6
       with:
-        path: DerivedDataCache
+        path: ddc
         key: DerivedDataCache
         restore-keys: |
           - DerivedDataCache
@@ -50,21 +42,6 @@ jobs:
     # Ensure Read-Write Permissions
     - name: Ensure Read-Write Permissions
       run: chmod -R 777 .
-      
-    # Generate Derived Data Cache
-    - name: Generate Derived Data Cache
-      if: steps.cache-ddc.outputs.cache-hit != 'true'
-      uses: addnab/docker-run-action@v2
-      with:
-        username: ${{ secrets.GH_USERNAME }}
-        password: ${{ secrets.GH_TOKEN }}
-        registry: ghcr.io
-        image: ghcr.io/epicgames/unreal-engine:dev-4.27
-        options: -v ${{ github.workspace }}:/project
-        run: |
-          /home/ue4/UnrealEngine/Engine/Binaries/Linux/UE4Editor \
-          Super-Florida-Man -run=DerivedDataCache -fill -DDC=CreatePak \
-          -buildmachine -stdout -unattended -nopause -nullrhi -nosplash
     
     # Build Game
     - name: Build Game
@@ -74,7 +51,7 @@ jobs:
         password: ${{ secrets.GH_TOKEN }}
         registry: ghcr.io
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
-        options: -v ${{ github.workspace }}:/project
+        options: -v ${{ github.workspace }}:/project -e UE-LocalDataCachePath=ddc
         run: |
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
@@ -85,11 +62,8 @@ jobs:
           -project=/project/Super_Florida_Man.uproject \
           -noP4 -nodebuginfo -allmaps \
           -cook -build -stage -prereqs -pak -archive \
-          -archivedirectory=/project/Packaged 
-
-    # Log Disk Usage
-    - name: Log Disk Usage
-      run: df -h
+          -archivedirectory=/project/Packaged ;\
+          du -a .
     
     # Upload
     - uses: actions/upload-artifact@v2.1.4
