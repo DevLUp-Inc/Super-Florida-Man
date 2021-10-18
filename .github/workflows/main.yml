@@ -9,8 +9,17 @@ on:
 jobs:
   # Build
   build:
-    name: Build for Linux
+    name: Build for ${{ matrix.target-platform }} on Unreal v${{ matrix.unreal-version}}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unreal-version:
+          - 4.27
+        target-platform:
+          - Windows
+          - Linux
+          - Mac
     steps:
       
     # Cleanup Disk Space
@@ -69,5 +78,5 @@ jobs:
     - name: Upload Game
       uses: actions/upload-artifact@v2.1.4
       with:
-        name: Build
+        name: Build-${{ matrix.target-platform }}-${{ matrix.unreal-version}}
         path: Packaged
