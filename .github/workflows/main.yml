@@ -9,30 +9,52 @@ on:
 jobs:
   # Build
   build:
+    name: Build for Linux
     runs-on: ubuntu-latest
     steps:
+    
     # Log Disk Usage
-    - run: "df -h"
+    - name: Log Disk Usage
+      run: "df -h"
+      
     # Cleanup Disk Space
-    - uses: easimon/maximize-build-space@v4
+    - name: Cleanup Disk Space
+      uses: easimon/maximize-build-space@v4
       with:
         root-reserve-mb: 46080
         swap-size-mb: 1024
         remove-dotnet: "true"
         remove-android: "true"
         remove-haskell: "true"
+        
     # Log Disk Usage
-    - run: "df -h"
+    - name: Log Disk Usage
+      run: "df -h"
+      
     # Checkout Super-Florida-Man
-    - uses: actions/checkout@v2.3.5
+    - name: Checkout Super-Florida-Man
+      uses: actions/checkout@v2.3.5
       with:
           lfs: false
     
-    # Grant Permissions
-    - run: "chmod -R 777 ."
+    # Restore Derived Data Cache
+    - name: Restore Derived Data Cache
+      id: cache-ddc
+      uses: actions/cache@v2.1.6
+      with:
+        path: DerivedDataCache
+        key: DerivedDataCache
+        restore-keys: |
+          - DerivedDataCache
     
-    # Docker Run
-    - uses: addnab/docker-run-action@v2
+    # Ensure Read-Write Permissions
+    - name: Ensure Read-Write Permissions
+      run: "chmod -R 777 ."
+      
+    # Generage Derived Data Cache
+    - name: Build Game
+      if: steps.cache-ddc.outputs.cache-hit != "true"
+      uses: addnab/docker-run-action@v2
       with:
         username: ${{ secrets.GH_USERNAME }}
         password: ${{ secrets.GH_TOKEN }}
@@ -40,11 +62,20 @@ jobs:
         image: ghcr.io/epicgames/unreal-engine:dev-4.27
         options: -v ${{ github.workspace }}:/project
         run: |
-          find . -maxdepth 2 -type d ;\
-          mkdir project/ ;\
-          mkdir project/Intermediate/ ;\
-          chown -R `whoami` project/ ;\
-          chmod -R 777 project/ ;\
+          /home/ue4/UnrealEngine/Engine/Binaries/Linux/UE4Editor \
+          Super-Florida-Man -run=DerivedDataCache -fill -DDC=CreatePak \
+          -buildmachine -stdout -unattended -nopause -nullrhi -nosplash
+    
+    # Build Game
+    - name: Build Game
+      uses: addnab/docker-run-action@v2
+      with:
+        username: ${{ secrets.GH_USERNAME }}
+        password: ${{ secrets.GH_TOKEN }}
+        registry: ghcr.io
+        image: ghcr.io/epicgames/unreal-engine:dev-4.27
+        options: -v ${{ github.workspace }}:/project
+        run: |
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
@@ -57,9 +88,9 @@ jobs:
           -archivedirectory=/project/Packaged 
 
     # Log Disk Usage
-    - run: "df -h"
-    # Log Directories
-    - run: "find . -maxdepth 2 -type d"
+    - name: Log Disk Usage
+      run: "df -h"
+    
     # Upload
     - uses: actions/upload-artifact@v2.1.4
       with:
