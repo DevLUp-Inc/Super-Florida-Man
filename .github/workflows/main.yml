@@ -51,8 +51,8 @@ jobs:
     - name: Ensure Read-Write Permissions
       run: chmod -R 777 .
       
-    # Generage Derived Data Cache
-    - name: Build Game
+    # Generate Derived Data Cache
+    - name: Generate Derived Data Cache
       if: steps.cache-ddc.outputs.cache-hit != 'true'
       uses: addnab/docker-run-action@v2
       with:
