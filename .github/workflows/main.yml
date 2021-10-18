@@ -65,7 +65,7 @@ jobs:
           /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh \
           BuildCookRun \
           -utf8output \
-          -platform=Linux \
+          -platform=${{ matrix.target-platform }} \
           -clientconfig=Shipping \
           -serverconfig=Shipping \
           -project=/project/Super_Florida_Man.uproject \
