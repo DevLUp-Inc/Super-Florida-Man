@@ -17,13 +17,13 @@ jobs:
         unreal-version:
           - 4.27
         target-platform:
-          - Windows
+          - Win64
           - Linux
           - Mac
     steps:
       
-    # Cleanup Disk Space
-    - name: Cleanup Disk Space
+    # Maximize Disk Space
+    - name: Maximize Disk Space
       uses: easimon/maximize-build-space@v4
       with:
         root-reserve-mb: 46080
@@ -44,9 +44,9 @@ jobs:
       uses: actions/cache@v2.1.6
       with:
         path: ddc
-        key: DerivedDataCache
+        key: DDC
         restore-keys: |
-          - DerivedDataCache
+          - DDC
     
     # Ensure Read-Write Permissions
     - name: Ensure Read-Write Permissions
@@ -71,8 +71,7 @@ jobs:
           -project=/project/Super_Florida_Man.uproject \
           -noP4 -nodebuginfo -allmaps \
           -cook -build -stage -prereqs -pak -archive \
-          -archivedirectory=/project/Packaged ;\
-          du -a .
+          -archivedirectory=/project/Packaged
     
     # Upload Game
     - name: Upload Game
